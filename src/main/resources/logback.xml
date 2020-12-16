@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 每3分钟扫描配置文件更改 -->
+<!-- packagingData：在堆栈跟踪中启用架包信息，生产环境应设置：false -->
+<!-- debug：logback开启debug模式，生产环境应设置：false -->
+<configuration debug="false" scan="true" scanPeriod="180 seconds" packagingData="false">
+
+	<property name="LOG_HOME" value="${user.home}/logs" />
+
+	<!-- 格式化日志输出 -->
+	<property name="pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger:%line - %msg%n%nopex%xEx" />
+
+	<!-- 控制台日志打印 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${pattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 文件日志记录，按条件生成新文件 -->
+	<appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- 过滤低于指定级别的事件 -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<file>${LOG_HOME}/error.html</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- 每日凌晨生成新文件，对日志文件进行自动GZIP压缩 -->
+			<fileNamePattern>${LOG_HOME}/error.%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<!-- 每个文件最多2MB，保持50天的历史记录，总容量为100M -->
+			<maxFileSize>2MB</maxFileSize>
+			<maxHistory>50</maxHistory>
+			<totalSizeCap>100MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="ch.qos.logback.classic.html.HTMLLayout">
+				<pattern>%date%thread%level%logger%msg</pattern>
+			</layout>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<!-- 异步日志记录 -->
+	<appender name="ASYNC_ERROR" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE_ERROR" />
+	</appender>
+
+	<!-- 文件日志记录，按条件生成新文件 -->
+	<appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- 过滤低于指定级别的事件 -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<file>${LOG_HOME}/log.html</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- 每日凌晨生成新文件，对日志文件进行自动GZIP压缩 -->
+			<fileNamePattern>${LOG_HOME}/log.%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<!-- 每个文件最多2MB，保持50天的历史记录，总容量为100M -->
+			<maxFileSize>2MB</maxFileSize>
+			<maxHistory>50</maxHistory>
+			<totalSizeCap>100MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="ch.qos.logback.classic.html.HTMLLayout">
+				<pattern>%date%thread%level%logger%msg</pattern>
+			</layout>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<!-- 异步日志记录 -->
+	<appender name="ASYNC_ERROR" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE_ERROR" />
+	</appender>
+	<appender name="ASYNC_INFO" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE_INFO" />
+	</appender>
+
+	<!-- level:TRACE, DEBUG, INFO, WARN, ERROR, ALL, OFF -->
+	<root level="INFO">
+		<appender-ref ref="ASYNC_INFO" />
+		<appender-ref ref="ASYNC_ERROR" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

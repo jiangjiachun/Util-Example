@@ -1,11 +1,16 @@
 package com.jjc.hex;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 十六进制数据转换
  * @author jjc
  * 2020-12-15
  */
 public class HexConversion {
+    
+    private static final Logger logger = LoggerFactory.getLogger(HexConversion.class);
     
     /**
      * @Title:bytes2HexString 
@@ -135,7 +140,8 @@ public class HexConversion {
     public static void main(String[] args) {
         String hexStr = "7c:ca:a1:bb:fa:d2:aa:be:d6:b6:af:bb:b7:cf:b5:cd:b3:7c:b5:e7:bb:b0:7c:ca:c2:bc:fe:a3:ba:31:46:5f:b5:e7:c1:a6:bb:fa:b7:bf:31:23:55:50:53:20:d5:fb:c1:f7:c6:f7:d4:cb:d0:d0:d7:b4:cc:ac:a3:ba:cd:a3:d6:b9:20:b7:a2:cb:cd:ca:a7:b0:dc:7c:33:7c:37:7c:32:30:32:30:2d:31:32:2d:31:34:20:30:36:3a:31:36:3a:30:32:7c:37:34:30:44:35:46:44:39:2d:30:36:36:46:2d:34:45:30:44:2d:42:44:45:30:2d:43:44:37:31:34:34:33:42:42:41:33:41:7c:53:30:2d:45:32:30:31:7c";
         String str = hexGBK2String(hexStr.replace(":", ""));
-        System.out.println(str);
+        logger.info("十六进制转换结果={}", str);
+        
     }
 
 }
