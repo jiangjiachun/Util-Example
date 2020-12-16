@@ -15,10 +15,23 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 
+/**
+ * 导出excel文件
+ * @author jjc
+ * 2020-12-16
+ */
 public class ExcelExport {
     
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+    /**
+     * 导出excel
+     * @param sheetName sheet页名称
+     * @param header 表格头标题
+     * @param datas 数据
+     * @param file 保存文件地址（.xls）
+     * @throws IOException
+     */
     public static void export(String sheetName, String[] header, List<Object[]> datas, File file) throws IOException {
         try(HSSFWorkbook workbook = new HSSFWorkbook()) {
             HSSFSheet sheet = workbook.createSheet(sheetName);

@@ -15,7 +15,7 @@ import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
-public class Snmp4jTest {
+public class SnmpMib {
 
 	private static Snmp protocol;
 
